@@ -1,7 +1,11 @@
 header{
     text-align: center;
+    font-family: 'Quicksand', sans-serif;
+    border: 1px;
 }
 
 h1{
-    color: orange;
+    color: rgb(255,140,0);
+    font-weight: 600;
+    font-size: 4rem;
 }
