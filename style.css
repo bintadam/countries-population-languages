@@ -1,11 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html{
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Quicksand', sans-serif;
+    height: 100vh;
+    color:#333;
+    padding: 1rem;
+}
+
 header{
     text-align: center;
-    font-family: 'Quicksand', sans-serif;
+    justify-content: center;
     border: 1px;
+    padding: 0 2rem;
+    background-color: #e6e6e6;
+    border-bottom: 1px solid #d1d1d1;
+    b
 }
 
 h1{
     color: rgb(255,140,0);
     font-weight: 600;
-    font-size: 4rem;
+    font-size: 6rem;
+    padding-top: 2rem;
+}
+
+header p{
+    font-size: 2rem;
+    padding-bottom: 2rem;
+}
+
+main{
+    justify-content: center;
+}
+
+.btn{
+    position: absolute;
+    top: 22%;
+    background-color: rgb(255,140,0); 
+    border: none;
+    outline: none;
+    font-size: 2rem;
+    color: inherit;
+    padding: 1rem 3rem;
+    justify-content: space-between;
+}
+
+.btn-population{
+    left: 37%;
+}
+
+.btn-languages{
+    left: 50%;
+}
+main p{
+    position: absolute;
+    top: 30%;
+    left: 37%;
+    justify-content: center;
+    font-size: 2rem;
 }
