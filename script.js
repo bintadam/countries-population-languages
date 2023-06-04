@@ -3,26 +3,21 @@ const btnLanguage = document.querySelector(".btn-language");
 
 const countriesAPI = 'https://restcountries.com/v2/all';
 
-let arr = [];
-
-const fectchApi = fetch(countriesAPI)
-    .then(Response => Response.json())
-    .then(data => {
-        let countriesData =  data;
-        countriesData.map(country => { 
-            arr.push(country)
+const countryData = async () => {
+    try{
+        const response = await fetch(countriesAPI);
+        const countries =  await response.json()
+        countries.map(country => {
+            btnPopulation.addEventListener("click", function(e){
+                countryName = country.name
+                countryPopulation = country.population
+            })
+            countryName = country.name
+            
         })
-    })
-    .catch(error => console.error(error)
-)
-console.log(arr)
-
-const populationCountry = arr.map(element=> {
-    let p = {}
-    p[element.name] = element.name;
-    p[element.population] = element.population
-    return p;
-
-})
-
-console.log(populationCountry)
+        
+    } catch(err){
+        console.error(err)
+    }
+}
+countryData()
