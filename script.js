@@ -17,8 +17,12 @@ const fectchApi = fetch(countriesAPI)
 )
 console.log(arr)
 
-const population = () => {
-    
-}
+const populationCountry = arr.map(element=> {
+    let p = {}
+    p[element.name] = element.name;
+    p[element.population] = element.population
+    return p;
 
-population()
+})
+
+console.log(populationCountry)
