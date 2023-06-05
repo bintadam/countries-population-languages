@@ -20,33 +20,45 @@ const countryData = async () => {
 
         const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
         const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
-    
+        
 
-        function populationChart(){
-            const canva =  document.getElementById('chartCanvas');
-            const ctx = canva.getContext('2d');
+        function populationChart(tenMostPopulatedCountries){
+            console.log(tenMostPopulatedCountries)
 
-            const chartWidth = canva.width;
-            const chartHeight =  canva.height;
-            const barHeight = chartWidth/ tenMostPopulatedCountries.length;
+            const canvas =  document.getElementById('chartCanvas');
+            const ctx = canvas.getContext('2d');
 
-            const maxValue = Math.max(...tenMostPopulatedCountries.map(item => item.value));
+             // Define chart dimensions
+            const chartWidth = canvas.width;
+            const chartHeight =  canvas.height;
 
+             // Find the maximum value in the data
+            const maxValue = Math.max(...tenMostPopulatedCountries.map(item => item.population));
+
+            // Calculate the width of each bar
+            const barWidth =  chartWidth/ maxValue
+
+            // Clear the canvas
             ctx.clearRect(0, 0, chartWidth, chartHeight);
 
+            // iterate over the data and draw the bars
             tenMostPopulatedCountries.forEach((item, index) => {
-                const barWidth = (item.value/maxValue) * chartWidth;
+                // Calculate the width of the current bar
+                const currentBarWidth = (item.value/maxValue) * barWidth;
+                // Calculate the x-coordinate of the current bar
                 const x = 0
-                const y  = index * barHeight
-
-                ctx.fillStyle = 'blue';
-                ctx.fillRect(x, y, barWidth, barHeight);
-    
+                // Calculate the x-coordinate of the current bar
+                const y  = index * (chartHeight/tenMostPopulatedCountries.length)
+                // Set the fill color
+                ctx.fillStyle = 'orange';
+                ctx.fillRect(x, y, currentBarWidth,chartHeight/tenMostPopulatedCountries.length/2);
+                
+                /// Set the country label color
                 ctx.fillStyle = 'black';
-                ctx.fillText(item.label, 5, y + barHeight / 2);
+                ctx.fillText(item.name, 5, y +(chartHeight/tenMostPopulatedCountries.length/2));
             });
         }
-        console.log(populationChart)
+        
 
         const targetLanguages = countries.map(country => {
             let countryLanguage = [];
@@ -77,7 +89,8 @@ const countryData = async () => {
         frequentLanguage()
 
         btnPopulation.addEventListener("click", function(e){
-            // populationChart(tenMostPopulatedCountries)
+            e.preventDefault()
+            populationChart(tenMostPopulatedCountries)
         })
 
 
