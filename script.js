@@ -12,17 +12,23 @@ const countryData = async () => {
         
         const targetCountries = countries.map(country => {
             return {
-                country: country.name,
+                name: country.name,
                 population: country.population
             }
               
         })
-        console.log(targetCountries)
+
+        const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
+        console.log(highestPopulatedCountry)
+
+        btnPopulation.addEventListener("click", function(e){
+
+        })
 
         const targetLanguages = countries.map(country => {
             countryLanguage.push(country.languages)
         })
-        console.log(targetLanguages)
+        
 
     } catch(err){
         console.error(err)
