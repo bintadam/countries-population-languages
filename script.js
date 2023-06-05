@@ -43,18 +43,21 @@ const countryData = async () => {
         })
         // console.log(names)
 
-        const langset = new Set(names)
-        console.log()
-        const counts = [];
-        const count = {};
-
-        for(const language of langset){
-            const filteredLng = names.filter((lng)=> lng === language);
-            console.log(filteredLng)
-            counts.push({lang:language, count:filteredLng.length})
+        const frequentLanguage =() => {
+            const langset = new Set(names)
+            console.log()
+            const counts = [];
+            const count = {};
+    
+            for(const language of langset){
+                const filteredLng = names.filter((lng)=> lng === language);
+                console.log(filteredLng)
+                counts.push({lang:language, count:filteredLng.length})
+            }
+            console.log(counts)
+            return counts
         }
-        console.log(counts)
-      
+        frequentLanguage()
 
     } catch(err){
         console.error(err)
