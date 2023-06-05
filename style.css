@@ -67,3 +67,12 @@ main p{
     justify-content: center;
     font-size: 2rem;
 }
+
+.chart-canvas{
+    position: absolute;
+    top: 35%;
+    height: 45rem;
+    width: 100%;
+    background-color: #e6e6e6;
+    border-top: 1px solid #d1d1d1;
+}
