@@ -20,13 +20,33 @@ const countryData = async () => {
 
         const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
         const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
-        console.log(tenMostPopulatedCountries)
+    
 
+        function populationChart(){
+            const canva =  document.getElementById('chartCanvas');
+            const ctx = canva.getContext('2d');
 
-        btnPopulation.addEventListener("click", function(e){
+            const chartWidth = canva.width;
+            const chartHeight =  canva.height;
+            const barHeight = chartWidth/ tenMostPopulatedCountries.length;
 
-        })
+            const maxValue = Math.max(...tenMostPopulatedCountries.map(item => item.value));
 
+            ctx.clearRect(0, 0, chartWidth, chartHeight);
+
+            tenMostPopulatedCountries.forEach((item, index) => {
+                const barWidth = (item.value/maxValue) * chartWidth;
+                const x = 0
+                const y  = index * barHeight
+
+                ctx.fillStyle = 'blue';
+                ctx.fillRect(x, y, barWidth, barHeight);
+    
+                ctx.fillStyle = 'black';
+                ctx.fillText(item.label, 5, y + barHeight / 2);
+            });
+        }
+        console.log(populationChart)
 
         const targetLanguages = countries.map(country => {
             let countryLanguage = [];
@@ -41,7 +61,6 @@ const countryData = async () => {
             }
             
         })
-        // console.log(names)
 
         const frequentLanguage =() => {
             const langset = new Set(names)
@@ -51,13 +70,16 @@ const countryData = async () => {
     
             for(const language of langset){
                 const filteredLng = names.filter((lng)=> lng === language);
-                console.log(filteredLng)
                 counts.push({lang:language, count:filteredLng.length})
             }
-            console.log(counts)
             return counts
         }
         frequentLanguage()
+
+        btnPopulation.addEventListener("click", function(e){
+            // populationChart(tenMostPopulatedCountries)
+        })
+
 
     } catch(err){
         console.error(err)
