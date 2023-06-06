@@ -23,16 +23,35 @@ const countryData = async () => {
         
 
         function populationChart(tenMostPopulatedCountries){
-            // extracte the rightValue and leftValue
+            console.log(tenMostPopulatedCountries)
+            // extracte the country name and population
             const name =  tenMostPopulatedCountries.map(item => item.name);
             const population= tenMostPopulatedCountries.map(item => item.population);
 
-            
-            
-
-
-
+            // CGet the existing canvas element to render
+            const canvas = document.getElementById('chartCanvas')
+            const chart = new Chart(canvas, {
+                type: 'horizontalBar',
+                data: {
+                    labels:name,
+                    datasets: [
+                        {
+                            label: 'population',
+                            data: population,
+                            borderWidth: 1,
+                            ackgroundColor: 'rgba(54, 162, 235, 0.5)'
+                        }
+                    ]
+                },
+                Options:{
+                    scales:{
+                        x:{
+                            beginAtZero: true
+                        }
+                    }
+                }
             });
+            
         }
 
         const targetLanguages = countries.map(country => {
