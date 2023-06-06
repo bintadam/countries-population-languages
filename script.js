@@ -18,39 +18,59 @@ const countryData = async () => {
               
         })
 
-        const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
-        const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
-        
 
         function populationChart(tenMostPopulatedCountries){
-            console.log(tenMostPopulatedCountries)
-            // extracte the country name and population
-            const name =  tenMostPopulatedCountries.map(item => item.name);
-            const population= tenMostPopulatedCountries.map(item => item.population);
+            // Sort the data
+            const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
+            const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
+            
+            const margin = {top:30, right:40, bottom:10, left:150};
+            const width = 960-margin.left - margin.right;
+            const height = 500- margin.top - margin.bottom;
 
-            // CGet the existing canvas element to render
-            const canvas = document.getElementById('chartCanvas')
-            const chart = new Chart(canvas, {
-                type: 'horizontalBar',
-                data: {
-                    labels:name,
-                    datasets: [
-                        {
-                            label: 'population',
-                            data: population,
-                            borderWidth: 1,
-                            ackgroundColor: 'rgba(54, 162, 235, 0.5)'
-                        }
-                    ]
-                },
-                Options:{
-                    scales:{
-                        x:{
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+            // X scale
+            const x =  d3.scaleLinear().range([0, width]).domain([0, d3.max(data, d => d.population)]);
+
+            // Y scale
+            const y = d3.scaleBand().rangeRound([0, height]).padding(0.1).domain(tenMostPopulatedCountries.map(d => d.name));
+
+            // Create SVG
+            const svg = d3.select("#barChart").append("svg")
+                .attr("width", width + margin.left + margin.right)        
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," +  margin.top + ")");
+
+                // Create bars
+            svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("y", d => y(d.name))
+                .attr("height", y.bandwidth())
+                .attr("x", 0)
+                .attr("width", d => x(d.population));
+
+            // Create X axis
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+
+            // Create Y axis
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(d3.axisLeft(y));
+
+                // Add text
+            svg.selectAll(".text")
+                .data(data)
+                .enter()
+                .append("text")
+                .attr("class","label")
+                .attr("x", (d => x(d.population) + 3))
+                .attr("y", (d => y(d.name) + y.bandwidth() / 2 + 4))
+                .text((d => d.population));
             
         }
 
