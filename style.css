@@ -37,7 +37,7 @@ header p{
     padding-bottom: 2rem;
 }
 
-main{
+.important{
     justify-content: center;
 }
 
@@ -60,7 +60,7 @@ main{
 .btn-language{
     left: 50%;
 }
-main p{
+.countries{
     position: absolute;
     top: 30%;
     left: 37%;
@@ -68,11 +68,16 @@ main p{
     font-size: 2rem;
 }
 
-#chartCanvas{
+.chartContainer{
     position: absolute;
     top: 38%;
     width: 98% ;
     height: 45rem;
     background-color: #e6e6e6;
     filter: drop-shadow(0 0 0.25rem rgb(123, 123, 123));
+}
+
+#chartCanvas{
+    height: 300;
+    width: 400;
 }

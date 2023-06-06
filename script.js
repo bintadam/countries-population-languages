@@ -23,42 +23,17 @@ const countryData = async () => {
         
 
         function populationChart(tenMostPopulatedCountries){
-            console.log(tenMostPopulatedCountries)
+            // extracte the rightValue and leftValue
+            const name =  tenMostPopulatedCountries.map(item => item.name);
+            const population= tenMostPopulatedCountries.map(item => item.population);
 
-            const canvas =  document.getElementById('chartCanvas');
-            const ctx = canvas.getContext('2d');
+            
+            
 
-             // Define chart dimensions
-            const chartWidth = canvas.width;
-            const chartHeight =  canvas.height;
 
-             // Find the maximum value in the data
-            const maxValue = Math.max(...tenMostPopulatedCountries.map(item => item.population));
 
-            // Calculate the width of each bar
-            const barWidth =  chartWidth/ maxValue
-
-            // Clear the canvas
-            ctx.clearRect(0, 0, chartWidth, chartHeight);
-
-            // iterate over the data and draw the bars
-            tenMostPopulatedCountries.forEach((item, index) => {
-                // Calculate the width of the current bar
-                const currentBarWidth = (item.value/maxValue) * barWidth;
-                // Calculate the x-coordinate of the current bar
-                const x = 0
-                // Calculate the x-coordinate of the current bar
-                const y  = index * (chartHeight/tenMostPopulatedCountries.length)
-                // Set the fill color
-                ctx.fillStyle = 'orange';
-                ctx.fillRect(x, y, currentBarWidth,chartHeight/tenMostPopulatedCountries.length/2);
-                
-                /// Set the country label color
-                ctx.fillStyle = 'black';
-                ctx.fillText(item.name, 5, y +(chartHeight/tenMostPopulatedCountries.length/2));
             });
         }
-        
 
         const targetLanguages = countries.map(country => {
             let countryLanguage = [];
@@ -90,6 +65,8 @@ const countryData = async () => {
 
         btnPopulation.addEventListener("click", function(e){
             e.preventDefault()
+            const important = document.querySelector('.important')
+            // important.classList.add('countries').textContent = '10 Most Spoken languages in the world'
             populationChart(tenMostPopulatedCountries)
         })
 
