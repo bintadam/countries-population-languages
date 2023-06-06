@@ -18,61 +18,43 @@ const countryData = async () => {
               
         })
 
-
-        function populationChart(tenMostPopulatedCountries){
-            // Sort the data
-            const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
+        const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
+        
+        function populationChart(){
             const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
-            
-            const margin = {top:30, right:40, bottom:10, left:150};
-            const width = 960-margin.left - margin.right;
-            const height = 500- margin.top - margin.bottom;
+            // find maximum population
+            var maxPopulation = Math.max.apply(Math,  tenMostPopulatedCountries.map(function(country) { return country.population; }));
 
-            // X scale
-            const x =  d3.scaleLinear().range([0, width]).domain([0, d3.max(data, d => d.population)]);
+            // calculate scale factor
+            var scaleFactor = 500 / maxPopulation;
 
-            // Y scale
-            const y = d3.scaleBand().rangeRound([0, height]).padding(0.1).domain(tenMostPopulatedCountries.map(d => d.name));
+            // select chart div
+            var chart = document.getElementById('chart');
 
-            // Create SVG
-            const svg = d3.select("#barChart").append("svg")
-                .attr("width", width + margin.left + margin.right)        
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," +  margin.top + ")");
+            // clear previous chart
+            chart.innerHTML = ""
 
-                // Create bars
-            svg.selectAll(".bar")
-                .data(data)
-                .enter().append("rect")
-                .attr("class", "bar")
-                .attr("y", d => y(d.name))
-                .attr("height", y.bandwidth())
-                .attr("x", 0)
-                .attr("width", d => x(d.population));
+            // for each country
+            for (var i = 0; i < tenMostPopulatedCountries.length; i++) {
+                // create bar div
+                var bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.width = (tenMostPopulatedCountries[i].population * scaleFactor) + 'px';
+                bar.textContent = tenMostPopulatedCountries[i].name;
 
-            // Create X axis
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x));
+                // create label div
+                var barLabel = document.createElement('div');
+                barLabel.className = 'bar-label';
+                barLabel.textContent = tenMostPopulatedCountries[i].population.toLocaleString();
 
-            // Create Y axis
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(d3.axisLeft(y));
+                // append label to bar
+                bar.appendChild(barLabel);
 
-                // Add text
-            svg.selectAll(".text")
-                .data(data)
-                .enter()
-                .append("text")
-                .attr("class","label")
-                .attr("x", (d => x(d.population) + 3))
-                .attr("y", (d => y(d.name) + y.bandwidth() / 2 + 4))
-                .text((d => d.population));
-            
+                // append bar to chart
+                chart.appendChild(bar);
+
         }
+        console.log(populationChart)
 
         const targetLanguages = countries.map(country => {
             let countryLanguage = [];
@@ -102,13 +84,9 @@ const countryData = async () => {
         }
         frequentLanguage()
 
-        btnPopulation.addEventListener("click", function(e){
-            e.preventDefault()
-            const important = document.querySelector('.important')
+        btnPopulation.addEventListener("click", populationChart)
+            // const important = document.querySelector('.important')
             // important.classList.add('countries').textContent = '10 Most Spoken languages in the world'
-            populationChart(tenMostPopulatedCountries)
-        })
-
 
     } catch(err){
         console.error(err)
