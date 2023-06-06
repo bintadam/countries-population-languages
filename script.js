@@ -19,9 +19,9 @@ const countryData = async () => {
         })
 
         const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
+        const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
         
-        function populationChart(){
-            const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
+        function populationChart(tenMostPopulatedCountries){
             // find maximum population
             var maxPopulation = Math.max.apply(Math,  tenMostPopulatedCountries.map(function(country) { return country.population; }));
 
@@ -30,12 +30,12 @@ const countryData = async () => {
 
             // select chart div
             var chart = document.getElementById('chart');
-
+    
             // clear previous chart
             chart.innerHTML = ""
 
             // for each country
-            for (var i = 0; i < tenMostPopulatedCountries.length; i++) {
+            for (var i = 0; i < tenMostPopulatedCountries.length; i++){
                 // create bar div
                 var bar = document.createElement('div');
                 bar.className = 'bar';
@@ -53,8 +53,8 @@ const countryData = async () => {
                 // append bar to chart
                 chart.appendChild(bar);
 
+            }
         }
-        console.log(populationChart)
 
         const targetLanguages = countries.map(country => {
             let countryLanguage = [];
@@ -84,10 +84,12 @@ const countryData = async () => {
         }
         frequentLanguage()
 
-        btnPopulation.addEventListener("click", populationChart)
+        btnPopulation.addEventListener("click", function(e){
+            e.preventDefault()
+            populationChart(tenMostPopulatedCountries)
+        })
             // const important = document.querySelector('.important')
             // important.classList.add('countries').textContent = '10 Most Spoken languages in the world'
-
     } catch(err){
         console.error(err)
     }
