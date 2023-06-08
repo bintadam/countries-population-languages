@@ -1,6 +1,8 @@
 const btnPopulation = document.querySelector(".btn-population");
 const btnLanguage = document.querySelector(".btn-language");
 
+document.getElementById('chart').style.display = "none"
+
 const countriesAPI = 'https://restcountries.com/v2/all';
 
 const countryData = async () => {
@@ -27,29 +29,29 @@ const countryData = async () => {
 
         function populationChart(tenMostPopulatedCountries){
             // find maximum population
-            var maxPopulation = Math.max.apply(Math,  tenMostPopulatedCountries.map(function(country) { return country.population; }));
+           let maxPopulation = Math.max.apply(Math,  tenMostPopulatedCountries.map(function(country) { return country.population; }));
 
             // calculate scale factor
-            var scaleFactor = 500 / maxPopulation;
+            let scaleFactor = 500 / maxPopulation;
 
             // select chart div
-            var chart = document.getElementById('chart');
+            let chart = document.getElementById('chart');
     
             // clear previous chart
             chart.innerHTML = ""
 
             // for each country
-            for (var i = 0; i < tenMostPopulatedCountries.length; i++){
+            for (let i = 0; i < tenMostPopulatedCountries.length; i++){
                 // create bar div
-                var bar = document.createElement('div');
+                let bar = document.createElement('div');
                 bar.className = 'bar';
                 bar.style.width = (tenMostPopulatedCountries[i].population * scaleFactor) + 'px';
-                var barName = document.createElement('div');
+                let barName = document.createElement('div');
                 barName.className = 'bar-name';
                 barName.textContent = tenMostPopulatedCountries[i].name.toLocaleString();
 
                 // create label div
-                var barLabel = document.createElement('div');
+                let barLabel = document.createElement('div');
                 barLabel.className = 'bar-label';
                 barLabel.textContent = tenMostPopulatedCountries[i].population.toLocaleString();
 
@@ -84,17 +86,47 @@ const countryData = async () => {
             const filteredLng = names.filter((lng)=> lng === language);
             counts.push({lang:language, count:filteredLng.length})
         }
-        console.log(counts)
+      
+        const frequentLanguage = counts.sort((a, b) => b.count-a.count)
+        const mostFrequentLanguage = frequentLanguage.slice(0, 10)
+
+        function languagesChart(mostFrequentLanguage){
+            let frequentLanguages = Math.max.apply(Math, mostFrequentLanguage.map(function(language){return language.count}))
+            let scaleFactor = 500/frequentLanguages
+            let chart = document.getElementById('chart')
+
+            chart.innerHTML = ""
+            for(let i = 0 ; i<mostFrequentLanguage.length; i++){
+                let bar = document.createElement('div')
+                bar.className = 'bar'
+                bar.style.width = (counts[i].count * scaleFactor) + 'px'
+
+                let barName = document.createElement('div')
+                barName.className = 'bar-name'
+                barName.textContent = counts[i].lang.toLocaleString()
+
+                let barLabel = document.createElement('div')
+                barLabel.className = 'bar-label'
+                barLabel.textContent = counts[i].lang.toLocaleString()
+
+                bar.appendChild(barName)
+                bar.appendChild(barLabel)
+
+                chart.appendChild(bar)
+            }
+        }
 
         btnPopulation.addEventListener("click", function(e){
             e.preventDefault()
             populationChart(tenMostPopulatedCountries)
+            document.getElementById('chart').style.display = 'block'
         })
             // const important = document.querySelector('.important')
             // important.classList.add('countries').textContent = '10 Most Spoken languages in the world'
         btnLanguage.addEventListener('click', function(e){
             e.preventDefault()
-            
+            languagesChart(mostFrequentLanguage)
+            document.getElementById('chart').style.display = 'block'
         })
     } catch(err){
         console.error(err)
