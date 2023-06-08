@@ -41,6 +41,14 @@ header p{
     justify-content: center;
 }
 
+.important p{
+    position: absolute;
+    left: 40%;
+    top: 28%;
+    font-size: 1.7rem;
+    font-size: 600;
+}
+
 .btn{
     position: absolute;
     top: 22%;
@@ -54,11 +62,11 @@ header p{
 }
 
 .btn-population{
-    left: 36%;
+    left: 38%;
 }
 
 .btn-language{
-    left: 50%;
+    left: 52%;
 }
 .countries{
     position: absolute;

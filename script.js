@@ -1,7 +1,9 @@
 const btnPopulation = document.querySelector(".btn-population");
 const btnLanguage = document.querySelector(".btn-language");
-
 document.getElementById('chart').style.display = "none"
+
+const most = document.createElement('p')
+const important = document.querySelector('.important')
 
 const countriesAPI = 'https://restcountries.com/v2/all';
 
@@ -23,9 +25,7 @@ const countryData = async () => {
         const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
         const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
         const newObject = {name:"World", population: 8037642469}
-        
         tenMostPopulatedCountries.unshift(newObject)
-        console.log(tenMostPopulatedCountries)
 
         function populationChart(tenMostPopulatedCountries){
             // find maximum population
@@ -35,10 +35,10 @@ const countryData = async () => {
             let scaleFactor = 500 / maxPopulation;
 
             // select chart div
-            let chart = document.getElementById('chart');
+            let chartBar = document.getElementById('chart');
     
             // clear previous chart
-            chart.innerHTML = ""
+            chartBar.innerHTML = ""
 
             // for each country
             for (let i = 0; i < tenMostPopulatedCountries.length; i++){
@@ -62,6 +62,8 @@ const countryData = async () => {
                 chart.appendChild(bar);
 
             }
+            most.textContent = "10 Most populated countries in the world"
+            important.appendChild(most)
         }
 
         const targetLanguages = countries.map(country => {
@@ -93,9 +95,9 @@ const countryData = async () => {
         function languagesChart(mostFrequentLanguage){
             let frequentLanguages = Math.max.apply(Math, mostFrequentLanguage.map(function(language){return language.count}))
             let scaleFactor = 500/frequentLanguages
-            let chart = document.getElementById('chart')
+            let chartBar = document.getElementById('chart')
 
-            chart.innerHTML = ""
+            chartBar.innerHTML = ""
             for(let i = 0 ; i<mostFrequentLanguage.length; i++){
                 let bar = document.createElement('div')
                 bar.className = 'bar'
@@ -114,22 +116,26 @@ const countryData = async () => {
 
                 chart.appendChild(bar)
             }
+            most.textContent = "10 Most spoken languages in the world"
+            important.appendChild(most)
         }
 
         btnPopulation.addEventListener("click", function(e){
             e.preventDefault()
             populationChart(tenMostPopulatedCountries)
             document.getElementById('chart').style.display = 'block'
+
         })
-            // const important = document.querySelector('.important')
-            // important.classList.add('countries').textContent = '10 Most Spoken languages in the world'
+            
         btnLanguage.addEventListener('click', function(e){
             e.preventDefault()
             languagesChart(mostFrequentLanguage)
             document.getElementById('chart').style.display = 'block'
         })
+
     } catch(err){
         console.error(err)
     }
+
 }
 countryData()
