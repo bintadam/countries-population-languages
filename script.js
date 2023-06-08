@@ -21,8 +21,10 @@ const countryData = async () => {
         const highestPopulatedCountry =  targetCountries.sort((a,b) => b.population-a.population)
         const tenMostPopulatedCountries = highestPopulatedCountry.slice(0,10)
         const newObject = {name:"World", population: 8037642469}
+        
         tenMostPopulatedCountries.unshift(newObject)
         console.log(tenMostPopulatedCountries)
+
         function populationChart(tenMostPopulatedCountries){
             // find maximum population
             var maxPopulation = Math.max.apply(Math,  tenMostPopulatedCountries.map(function(country) { return country.population; }));
@@ -74,19 +76,15 @@ const countryData = async () => {
             
         })
 
-        const frequentLanguage =() => {
-            const langset = new Set(names)
-            console.log()
-            const counts = [];
-            const count = {};
-    
-            for(const language of langset){
-                const filteredLng = names.filter((lng)=> lng === language);
-                counts.push({lang:language, count:filteredLng.length})
-            }
-            return counts
+        const counts = [];
+        const count = {};
+
+        const langset = new Set(names)
+        for(const language of langset){
+            const filteredLng = names.filter((lng)=> lng === language);
+            counts.push({lang:language, count:filteredLng.length})
         }
-        frequentLanguage()
+        console.log(counts)
 
         btnPopulation.addEventListener("click", function(e){
             e.preventDefault()
@@ -94,6 +92,10 @@ const countryData = async () => {
         })
             // const important = document.querySelector('.important')
             // important.classList.add('countries').textContent = '10 Most Spoken languages in the world'
+        btnLanguage.addEventListener('click', function(e){
+            e.preventDefault()
+            
+        })
     } catch(err){
         console.error(err)
     }
